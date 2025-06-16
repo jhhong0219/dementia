@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WAY BACK HOME</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div id="wrap">
+        <header>
+            <h1><a href="index.html">Way Back Home</a></h1>
+            <ul id="gnb">
+                <li><a href="index.html">home</a></li>
+                <li><a href="contact.html">contact</a></li>
+            </ul>
+        </header>
+        <div id="container-scene1-2">
+            <div id="content">
+                <div id="img-textWrap1">
+                <div id="typedtext1"></div>
+                </div>
+                <a href="scene1-3.html" class="btn-next">NEXT</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        var aText = new Array(
+            "오늘이 며칠이더라?",
+            "어디 가야할 데가 있었던",
+            "것같은데..."
+        );
+        var iSpeed = 90; // time delay of print out
+        var iIndex = 0; // start printing array at this posision
+        var iArrLength = aText[0].length; // the length of the text array
+        var iScrollAt = 20; // start scrolling up at this many lines
+
+        var iTextPos = 0; // initialise text position
+        var sContents = ''; // initialise contents variable
+        var iRow; // initialise current row
+
+        function typewriter() {
+            sContents = ' ';
+            iRow = Math.max(0, iIndex - iScrollAt);
+            var destination = document.getElementById("typedtext1");
+
+            while (iRow < iIndex) {
+                sContents += aText[iRow++] + '<br />';
+            }
+            destination.innerHTML = sContents + aText[iIndex].substring(0, iTextPos) + "_";
+            if (iTextPos++ == iArrLength) {
+                iTextPos = 0;
+                iIndex++;
+                if (iIndex != aText.length) {
+                    iArrLength = aText[iIndex].length;
+                    setTimeout("typewriter()", 500);
+                }
+            } else {
+                setTimeout("typewriter()", iSpeed);
+            }
+        }
+
+
+        typewriter();
+    </script>
+</body>
+
+</html>

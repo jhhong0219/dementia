@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WAY BACK HOME</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="wrap">
+        <header>
+            <h1><a href="index.html">Way Back Home</a></h1>
+            <ul id="gnb">
+                <li><a href="index.html">home</a></li>
+                <li><a href="contact.html">contact</a></li>
+            </ul>   
+        </header>
+        <div id="container-scene2hint1">
+            <div id="content">
+                <div id="timer"><p>골든타임: </p><span id="timeDisplay">24 h</span>초 남았습니다</div>
+                <a href="scene2.html" class="btn-next">NEXT</a>
+                
+            </div>
+        </div>
+    </div>
+    <script>
+        const LIMIT = 240;
+        const startKey = "countdownStart";
+        const display = document.getElementById("timeDisplay");
+
+        // 1. 시작 시각이 저장되어 있는지 확인
+        if (!localStorage.getItem(startKey)) {
+        // 없으면 새로 저장 (예외 상황 대비)
+        localStorage.setItem(startKey, Date.now());
+        }
+
+        function updateTime() {
+        const start = parseInt(localStorage.getItem(startKey));
+        const elapsed = Math.floor((Date.now() - start) / 1000);
+        const remaining = Math.max(LIMIT - elapsed, 0);
+        display.textContent = remaining;
+
+        if (remaining <= 0) {
+            clearInterval(countdown);
+            display.textContent = "0";
+            alert("골든 타임 안에 집을 찾아가지 못했습니다");
+            location.href = "ending-bad.html";
+        }
+        }
+
+        updateTime(); // 바로 표시
+        const countdown = setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>

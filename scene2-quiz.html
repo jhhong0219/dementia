@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WAY BACK HOME</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="wrap">
+        <header>
+            <h1><a href="index.html">Way Back Home</a></h1>
+            <ul id="gnb">
+                <li><a href="index.html">home</a></li>
+                <li><a href="contact.html">contact</a></li>
+            </ul>   
+        </header>
+        <div id="container-scene2-quiz">
+            <div id="timer"><p>골든타임: </p><span id="timeDisplay">24 h</span>초 남았습니다</div>
+            <div id="content">
+                <div id="img-textWrap2">
+                        <ul class="clockWrap">
+                            <li>
+                                <div class="clock-img-wrap">
+                                <img src="img/clock 1.png" alt="clock1">
+                                </div>
+                                <strong>12시 8분</strong>
+                            </li>
+                            <li>
+                                <div class="clock-img-wrap">
+                                <img src="img/clock 2.png" alt="clock2">
+                                </div>
+                                <strong>6시 15분</strong>
+                            </li>
+                            <li>
+                                <div class="clock-img-wrap">
+                                <img src="img/clock 3.png" alt="clock3">
+                                </div>
+                                <strong>3시 38분</strong>
+                            </li>
+                            <li>
+                                <div class="clock-img-wrap">
+                                <img src="img/clock 4.png" alt="clock4">
+                                </div>
+                                <strong>7시 55분</strong>
+                            </li>
+                        </ul>
+                </div>
+                <a href="scene2-3.html" class="btn-next" style="display: none;">NEXT</a>
+                
+            </div>
+        </div>
+    </div>
+    <script>
+        const LIMIT = 240;
+        const startKey = "countdownStart";
+        const display = document.getElementById("timeDisplay");
+
+        let remaining = LIMIT;
+
+        // 1. 시작 시각이 저장되어 있는지 확인
+        if (!localStorage.getItem(startKey)) {
+        localStorage.setItem(startKey, Date.now());
+        }
+
+        function updateTime() {
+        const start = parseInt(localStorage.getItem(startKey));
+        const elapsed = Math.floor((Date.now() - start) / 1000);
+        remaining = Math.max(LIMIT - elapsed, 0); // 전역 변수 업데이트
+        display.textContent = remaining;
+
+        if (remaining <= 0) {
+            clearInterval(countdown);
+            display.textContent = "0";
+            alert("골든 타임 안에 집을 찾아가지 못했습니다");
+            location.href = "ending-bad.html";
+        }
+        }
+
+        updateTime(); // 초기 즉시 호출
+        const countdown = setInterval(updateTime, 1000);
+
+        // 시계 클릭 시 오답 처리
+        const clocks = document.querySelectorAll(".clockWrap li");
+        const nextBtn = document.querySelector(".btn-next");
+
+        clocks.forEach((clock, index) => {
+        clock.addEventListener("click", function () {
+            if (index === 0) {
+            alert("정답입니다. 기억력이 좋으시군요!");
+            nextBtn.style.display = "inline-block";
+            } else {
+            alert("골든타임이 10초 차감됩니다. 다시 시도해 보세요");
+            remaining = Math.max(0, remaining - 10); // 음수 방지
+            display.textContent = remaining;
+
+            // 로컬스토리지의 시작 시각도 재계산하여 갱신
+            const newStart = Date.now() - (LIMIT - remaining) * 1000;
+            localStorage.setItem(startKey, newStart);
+            }
+        });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WAY BACK HOME</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="wrap">
+        <header>
+            <h1><a href="index.html">Way Back Home</a></h1>
+            <ul id="gnb">
+                <li><a href="index.html">home</a></li>
+                <li><a href="contact.html">contact</a></li>
+            </ul>   
+        </header>
+        <div id="container-scene2">
+            <div id="timer"><p>골든타임: </p><span id="timeDisplay">24 h</span>초 남았습니다</div>
+                <div id="content">
+                    <div id="img-textWrap-scene2">
+                        <a href="scene2hint1.html" id="hint1">
+                            <img src="img/scene 2 hint1-hidden.png" alt="hint1">
+                        </a>
+                        <a href="scene2hint2.html" id="hint2">
+                            <img src="img/scene 2 hint2-hidden.png" alt="hint2">
+                        </a>
+                    </div>
+                    <a href="scene2-2.html" class="btn-next">NEXT</a>
+                    <p id="caption">주변을 확인해 힌트를 얻어 보세요</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const LIMIT = 240;
+        const startKey = "countdownStart";
+        const display = document.getElementById("timeDisplay");
+    
+        // scene2pre.html에서 왔을 경우에만 리셋
+        if (document.referrer.includes("scene2pre.html")) {
+        localStorage.setItem(startKey, Date.now()); // 타이머 새로 시작
+        }
+    
+        // 타이머 계산 및 표시
+        function updateTime() {
+        const start = parseInt(localStorage.getItem(startKey));
+        const elapsed = Math.floor((Date.now() - start) / 1000);
+        const remaining = Math.max(LIMIT - elapsed, 0);
+        display.textContent = remaining;
+    
+        if (remaining <= 0) {
+            clearInterval(countdown);
+            alert("골든 타임 안에 집을 찾아가지 못했습니다");
+            location.href = "ending-bad.html";
+        }
+        }
+    
+        updateTime(); // 바로 표시
+        const countdown = setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>

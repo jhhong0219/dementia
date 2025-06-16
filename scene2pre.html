@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WAY BACK HOME</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="wrap">
+        <header>
+            <h1><a href="index.html">Way Back Home</a></h1>
+            <ul id="gnb">
+                <li><a href="index.html">home</a></li>
+                <li><a href="contact.html">contact</a></li>
+            </ul>   
+        </header>
+        <div id="container-scene2pre">
+            <div id="content">
+                <a href="scene2.html" class="btn-next">NEXT</a>
+                
+            </div>
+        </div>
+    </div>
+    <script>
+        const LIMIT = 240;
+        const startKey = "countdownStart";
+        const display = document.getElementById("timeDisplay");
+    
+        // scene2pre.html에서 왔을 경우에만 리셋
+        if (document.referrer.includes("scene2pre.html")) {
+        localStorage.setItem(startKey, Date.now()); // 타이머 새로 시작
+        }
+    
+        // 타이머 계산 및 표시
+        function updateTime() {
+        const start = parseInt(localStorage.getItem(startKey));
+        const elapsed = Math.floor((Date.now() - start) / 1000);
+        const remaining = Math.max(LIMIT - elapsed, 0);
+        display.textContent = remaining;
+    
+        if (remaining <= 0) {
+            clearInterval(countdown);
+            alert("골든 타임 안에 집을 찾아가지 못했습니다");
+            location.href = "ending-bad.html";
+        }
+        }
+    
+        updateTime(); // 바로 표시
+        const countdown = setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>
